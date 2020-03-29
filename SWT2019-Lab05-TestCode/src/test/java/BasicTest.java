@@ -5,7 +5,6 @@ import static junit.framework.TestCase.assertEquals;
 
 public class BasicTest extends TestHelper {
 
-
     private String username = "admin";
     private String password = "admin";
 
