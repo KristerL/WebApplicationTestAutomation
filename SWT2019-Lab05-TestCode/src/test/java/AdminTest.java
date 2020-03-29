@@ -114,6 +114,47 @@ public class AdminTest extends TestHelper {
         logout();
     }
 
+    @Test
+    public void DuplicateAccountCreate() {
+        CreateTestAccount();
+        logout();
+        CreateTestAccount();
+        String expectedTitle = "1 error prohibited this user from being saved:\n" +
+                "Name has already been taken";
+        String actualTitle = driver.findElement(By.id("error_explanation")).getText();
+        assertEquals(expectedTitle, actualTitle);
+        login(username + "1",password);
+        DeleteTestAccount();
+    }
+
+    @Test
+    public void PriceShouldBeNumber() {
+        login(username,password);
+        productPrice = "test";
+        CreateTestProduct();
+
+        String expectedTitle = "1 error prohibited this product from being saved:\n" +
+                "Price is not a number";
+        String actualTitle = driver.findElement(By.id("error_explanation")).getText();
+        assertEquals(expectedTitle, actualTitle);
+
+        logout();
+        productPrice = "15";
+    }
+
+    @Test
+    public void DuplicateProductCreate() {
+        login(username,password);
+        CreateTestProduct();
+        CreateTestProduct();
+        String expectedTitle = "1 error prohibited this product from being saved:\n" +
+                "Title has already been taken";
+        String actualTitle = driver.findElement(By.id("error_explanation")).getText();
+        assertEquals(expectedTitle, actualTitle);
+        DeleteTestProduct();
+        logout();
+    }
+
 
     public void CreateTestAccount() {
         goToPage("Register");
