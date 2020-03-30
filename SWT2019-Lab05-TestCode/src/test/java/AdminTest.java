@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.concurrent.TimeUnit;
+
 import static junit.framework.TestCase.assertEquals;
 
 public class AdminTest extends TestHelper {
@@ -154,6 +156,23 @@ public class AdminTest extends TestHelper {
         DeleteTestProduct();
         logout();
     }
+
+    @Test
+    public void checkCategoryAfterUpdate() throws InterruptedException {
+        login(username,password);
+        goToPage("Products");
+        String before = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/table/tbody/tr[2]/td[2]/div/span")).getText();
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/table/tbody/tr[2]/td[3]/a")).click();
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/form/div[5]/input")).click();
+        goToPage("Products");
+        String after = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/table/tbody/tr[3]/td[2]/div/span")).getText();
+
+        TimeUnit.SECONDS.sleep(5);
+        assertEquals(before,after);
+    }
+
 
 
     public void CreateTestAccount() {
